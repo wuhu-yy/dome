@@ -1,0 +1,6 @@
+http://gw.wzer.net:8080
+http://61.153.10.79:8080
+http://gw.wzer.net:8080
+http://218.2.231.183:9080
+http://gw.wzer.net:8080
+http://gw.wzer.net:8080
