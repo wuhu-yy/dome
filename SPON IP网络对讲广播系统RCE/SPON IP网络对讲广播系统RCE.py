@@ -19,8 +19,8 @@ def banner():
           |__/                                      |__/            |__/                                           \______/       |__/                    
                    
 
-                                                                                                        @author: black apple pie
-                                                                                                        @version: 0.0.1
+                        author = 芜湖  
+                        version=1.1.1                                                                         
 """
     print(banner)
 
